@@ -7,4 +7,9 @@
 ### [万表网](https://www.wbiao.cn/)
 ### [万表网在售商品列表](https://www.wbiao.cn/shoubiao.html)
 
+# 环境
+1. python3.6 + scrapy
+2. windows
+3. mysql + redis
+
 
