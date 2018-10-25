@@ -68,7 +68,8 @@ DOWNLOADER_MIDDLEWARES = {
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    'mySpider.pipelines.GenPipeline': 300,
-   'mySpider.pipelines.ImagePipeline': 400,
+   'mySpider.pipelines.MongodbPipeline': 310,
+   # 'mySpider.pipelines.ImagePipeline': 400,
 
 }
 
@@ -98,3 +99,9 @@ IMAGES_STORE = './resources'
 
 # 日志
 LOG_LEVEL = 'DEBUG'
+
+# Mongodb
+MONGO_HOST = '127.0.0.1'
+MONGO_PORT = '27017'
+MONGO_DB = 'spider'
+COLLECTION = ''

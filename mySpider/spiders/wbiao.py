@@ -27,7 +27,7 @@ class WbiaoSpider(scrapy.Spider):
 
             sold = sku.xpath(r'.//div[@class="goods_sale"]/em/text()').extract_first() or ''
             goods_item['sold'] = sold.encode('utf-8').replace('销量', '')
-            goods_item['price'] = sku.xpath(r'.//span[@class="s_price"]/em/text()').extract_first()
+            goods_item['price'] = sku.xpath(r'.//p[@class="tPrc"]/span/em/text()').extract_first()
             yield goods_item
 
         # pagination
@@ -36,6 +36,6 @@ class WbiaoSpider(scrapy.Spider):
             next_page = 'https://www.wbiao.cn/shoubiao-p2.html'
         else:
             page_no = int(re.match(r'.*-p(\d+).html', url).group(1))
-            next_page = 'https://www.wbiao.cn/shoubiao-p{}.html'.format(page_no+1)
+            next_page = 'https://www.wbiao.cn/shoubiao-p{}.html'.format(page_no + 1)
 
         yield scrapy.Request(url=next_page, callback=self.parse, dont_filter=True)

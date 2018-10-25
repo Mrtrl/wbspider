@@ -11,6 +11,8 @@ from mySpider.items import WItem
 import scrapy
 from scrapy.pipelines.images import ImagesPipeline
 from scrapy.exceptions import DropItem
+from mySpider.settings import MONGO_DB, MONGO_HOST, MONGO_PORT
+import pymongo
 
 logger = logging.getLogger('SaveImagePipeline')
 
@@ -72,3 +74,27 @@ class ImagePipeline(ImagesPipeline):
         返回文件名
         """
         return request.url.split('/')[-1]
+
+
+class MongodbPipeline(object):
+    def __init__(self):
+        try:
+            # 创建Mongodb数据库连接
+            self.connection = pymongo.MongoClient(MONGO_HOST, int(MONGO_PORT))
+            self.collection = ''
+        except Exception as e:
+            raise e
+
+    def open_spider(self, spider):
+        try:
+            # 指定数据库
+            db = self.connection[MONGO_DB]
+
+            # 存放数据的数据表名称
+            self.collection = db[spider.name]
+        except Exception as e:
+            raise e
+
+    def process_item(self, item, spider):
+        self.collection.insert(dict(item))
+        return item
